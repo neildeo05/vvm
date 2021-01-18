@@ -105,6 +105,42 @@ Chunk parse_chunk(String* s, String* funcDef) {
 	if(string_eq(&instruction, &NEW_STRING("jmp"))) {
 	  addInstruction(&c, &NEW_INST(OP_JMP,string_as_num(&inst)));
 	}
+	if(string_eq(&instruction, &NEW_STRING("jif"))) {
+	  addInstruction(&c, &NEW_INST(OP_JMP_IF,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("eq"))) {
+	  addInstruction(&c, &NEW_INST(OP_EQ,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("g"))) {
+	  addInstruction(&c, &NEW_INST(OP_G,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("ge"))) {
+	  addInstruction(&c, &NEW_INST(OP_GE,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("l"))) {
+	  addInstruction(&c, &NEW_INST(OP_L,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("le"))) {
+	  addInstruction(&c, &NEW_INST(OP_LE,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("ne"))) {
+	  addInstruction(&c, &NEW_INST(OP_NE,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("not"))) {
+	  addInstruction(&c, &NEW_INST(OP_NOT,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("not"))) {
+	  addInstruction(&c, &NEW_INST(OP_NOT,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("swp"))) {
+	  addInstruction(&c, &NEW_INST(OP_SWP,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("dup"))) {
+	  addInstruction(&c, &NEW_INST(OP_DUP,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("call"))) {
+	  addInstruction(&c, &NEW_INST(OP_CALL,string_as_num(&inst)));
+	}
 	if(string_eq(&instruction, &NEW_STRING("br"))) {
 	  addInstruction(&c, &NEW_INST(OP_BREAK,0));
 	}
@@ -122,18 +158,8 @@ Chunk parse_chunk(String* s, String* funcDef) {
 
 void prog(String* st) {
   int chunk_nums = 2;
-	String funcDefVal = peek_until_value(st, ':');
-	char funcDefCharArr[funcDefVal.size + 1];
-	for(int i = 0; i < funcDefVal.size; i++) {
-	  funcDefCharArr[i] = funcDefVal.val[i];
-	}
-	parse_chunk(st, &NEW_STRING(funcDefCharArr));
-
-	funcDefVal = peek_until_value(st, ':');
-	for(int i = 0; i < funcDefVal.size; i++) {
-	  funcDefCharArr[i] = funcDefVal.val[i];
-	}
-	parse_chunk(st, &NEW_STRING(funcDefCharArr));
+	parse_chunk(st, &NEW_STRING("AAAA"));
+	parse_chunk(st, &NEW_STRING("BBBBB"));
 
   dumpProgram();
   executeProgram();
@@ -153,22 +179,5 @@ int main() {
   fread(a, 1, size, f);
   String st = NEW_STRING(a);
   trim(&st);
-
-
-  /* String funcDefVal = peek_until_value(&st, ':'); */
-  /* char funcDefCharArr[funcDefVal.size + 1]; */
-  /* for(int i = 0; i < funcDefVal.size; i++) { */
-  /*	funcDefCharArr[i] = funcDefVal.val[i]; */
-  /* } */
-  /* parse_chunk(&st, &NEW_STRING(funcDefCharArr)); */
-
-  /* funcDefVal = peek_until_value(&st, ':'); */
-  /* for(int i = 0; i < funcDefVal.size; i++) { */
-  /*	funcDefCharArr[i] = funcDefVal.val[i]; */
-  /* } */
-  /* parse_chunk(&st, &NEW_STRING(funcDefCharArr)); */
-  /* dumpProgram(); */
-  /* executeProgram(); */
   prog(&st);
-
-}
+  }

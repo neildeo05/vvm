@@ -7,7 +7,6 @@ main:
 	br
 	push 20
 	push 30
-	jmp 4
 	ret
 add:
 	push 12
