@@ -52,7 +52,8 @@ String take_until_value(String* a, char delim) {
   }
   return ret;
 }
-
+//implement peek_until_value
+String peek_until_value();
 void print_string(String* s) {
   for(int i = 0; i < s->size; i++) {
 	printf("%c", s->val[i]);
@@ -123,6 +124,9 @@ int main() {
   char a[size];
   fread(a, 1, size, f);
   String st = NEW_STRING(a);
+  trim(&st);
+
+  parse_chunk(&st);
   trim(&st);
   parse_chunk(&st);
   dumpProgram();

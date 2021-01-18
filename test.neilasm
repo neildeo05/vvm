@@ -4,7 +4,7 @@ main:
 	add
 	ret
 add:
-	push 10
+	push 12
 	push 11
 	add
 	ret
