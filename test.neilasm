@@ -1,0 +1,10 @@
+main:
+	push 10
+	push 11
+	add
+	ret
+add:
+	push 10
+	push 11
+	add
+	ret

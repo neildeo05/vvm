@@ -1,0 +1,31 @@
+  /* Chunk c; */
+  /* Chunk b; */
+  /* instantiateChunk(&c, "test"); */
+  /* instantiateChunk(&b, "main"); */
+  /* addInstruction(&c, &NEW_INST(OP_CONST, 10));      // 0 */
+  /* addInstruction(&c, &NEW_INST(OP_CONST, 10));      // 1 */
+  /* addInstruction(&c, &NEW_INST(OP_ADD, 0));         // 2 */
+  /* addInstruction(&c, &NEW_INST(OP_CONST, 4));       // 3 */
+  /* addInstruction(&c, &NEW_INST(OP_JMP, 8));         // 4 */
+  /* addInstruction(&c, &NEW_INST(OP_ADD, 0));         // 5 */
+  /* addInstruction(&c, &NEW_INST(OP_JMP, 7));         // 6 */
+  /* addInstruction(&c, &NEW_INST(OP_BREAK, 0));       // 7 */
+  /* addInstruction(&c, &NEW_INST(OP_JMP, 5));         // 8 */
+  /* addInstruction(&c, &NEW_INST(OP_RETURN, 0));      // 9 */
+  /* //////////////////////////////  chunk separator  ////////////////////////////// */
+  /* addInstruction(&b, &NEW_INST(OP_CONST, 10));  // 0 */
+  /* addInstruction(&b, &NEW_INST(OP_CONST, 11));  // 1 */
+  /* addInstruction(&b, &NEW_INST(OP_GE, 21));     // 2 */
+  /* addInstruction(&b, &NEW_INST(OP_JMP_IF, 6));  // 3 */
+  /* addInstruction(&b, &NEW_INST(OP_CALL, 0));    // 4 */
+  /* addInstruction(&b, &NEW_INST(OP_BREAK, 0));   // 5 */
+  /* addInstruction(&b, &NEW_INST(OP_SWP, 1));     // 6 */
+  /* addInstruction(&b, &NEW_INST(OP_DUP, 1));     // 7 */
+  /* addInstruction(&b, &NEW_INST(OP_ADD, 0));     // 8 */
+  /* addInstruction(&b, &NEW_INST(OP_SUB, 0));     // 9 */
+  /* addInstruction(&b, &NEW_INST(OP_NE, -10));    // 10 */
+  /* addInstruction(&b, &NEW_INST(OP_JMP_IF, 4));  // 11 */
+  /* addInstruction(&b, &NEW_INST(OP_RETURN, 0));  // 12 */
+  /* pushChunk(&c); */
+  /* pushChunk(&b); */
+  /* executeProgram(); */
