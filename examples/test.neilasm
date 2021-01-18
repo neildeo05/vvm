@@ -1,0 +1,11 @@
+main:
+	push 10
+	push 11
+	add
+	jmp 6
+	push 40
+	br
+	push 20
+	push 30
+	jmp 4
+	ret
