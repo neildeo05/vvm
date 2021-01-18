@@ -39,8 +39,6 @@ String take_until_value(String* a, char delim) {
   while(a->val[buf] != delim && buf < a->size) {
 	buf += 1;
   }
-  //main: -> chop by : buf = 4 -> a->size = 1 -> a->val = :;
-  //main: asdf chop by : buf = 4 -> a->size = 6 -> a->val = " asdf"
   String ret = NEW_SIZED_STRING(a->val, buf);
   if (a->size <= buf) {
 	a->size -= buf;
@@ -52,8 +50,14 @@ String take_until_value(String* a, char delim) {
   }
   return ret;
 }
-//implement peek_until_value
-String peek_until_value();
+String peek_until_value(String *a, char delim) {
+  size_t buf = 0;
+  while(a->val[buf] != delim && buf < a->size) {
+	buf += 1;
+  }
+  String ret = NEW_SIZED_STRING(a->val, buf);
+  return ret;
+}
 void print_string(String* s) {
   for(int i = 0; i < s->size; i++) {
 	printf("%c", s->val[i]);
@@ -73,18 +77,10 @@ int string_as_num(String* a) {
   }
   return atoi(buffer);
 }
-Chunk parse_chunk(String* s) {
-  //TODO: Port this to the main method, and pass in the name of the chunk as a parameter
-  String funcDef = take_until_value(s, ':');
-  trim(&funcDef);
-  trim(s);
-  char a[funcDef.size + 1];
-  for(int i = 0; i < funcDef.size; i++) {
-	a[i] = funcDef.val[i];
-  }
-  //ENDTODO
+
+Chunk parse_chunk(String* s, String* funcDef) {
   Chunk c;
-  instantiateChunk(&c, a);
+  instantiateChunk(&c, funcDef->val);
   String inst = take_until_value(s, '\n');
   trim(&inst);
   int buf_set = 0;
@@ -97,8 +93,21 @@ Chunk parse_chunk(String* s) {
 	if(string_eq(&instruction, &NEW_STRING("add"))) {
 	  addInstruction(&c, &NEW_INST(OP_ADD,0));
 	}
-
-	//Updating values for loop
+	if(string_eq(&instruction, &NEW_STRING("sub"))) {
+	  addInstruction(&c, &NEW_INST(OP_SUB,0));
+	}
+	if(string_eq(&instruction, &NEW_STRING("mult"))) {
+	  addInstruction(&c, &NEW_INST(OP_MULT,0));
+	}
+	if(string_eq(&instruction, &NEW_STRING("div"))) {
+	  addInstruction(&c, &NEW_INST(OP_DIV,0));
+	}
+	if(string_eq(&instruction, &NEW_STRING("jmp"))) {
+	  addInstruction(&c, &NEW_INST(OP_JMP,string_as_num(&inst)));
+	}
+	if(string_eq(&instruction, &NEW_STRING("br"))) {
+	  addInstruction(&c, &NEW_INST(OP_BREAK,0));
+	}
 	inst = take_until_value(s, '\n');
 	trim(&inst);
 	if (buf_set == 10) break;
@@ -110,6 +119,25 @@ Chunk parse_chunk(String* s) {
   return c;
 }
 
+
+void prog(String* st) {
+  int chunk_nums = 2;
+	String funcDefVal = peek_until_value(st, ':');
+	char funcDefCharArr[funcDefVal.size + 1];
+	for(int i = 0; i < funcDefVal.size; i++) {
+	  funcDefCharArr[i] = funcDefVal.val[i];
+	}
+	parse_chunk(st, &NEW_STRING(funcDefCharArr));
+
+	funcDefVal = peek_until_value(st, ':');
+	for(int i = 0; i < funcDefVal.size; i++) {
+	  funcDefCharArr[i] = funcDefVal.val[i];
+	}
+	parse_chunk(st, &NEW_STRING(funcDefCharArr));
+
+  dumpProgram();
+  executeProgram();
+}
 
 int main() {
   FILE *f;
@@ -126,11 +154,21 @@ int main() {
   String st = NEW_STRING(a);
   trim(&st);
 
-  parse_chunk(&st);
-  trim(&st);
-  parse_chunk(&st);
-  dumpProgram();
-  executeProgram();
-  trim(&st);
-  fclose(f);
+
+  /* String funcDefVal = peek_until_value(&st, ':'); */
+  /* char funcDefCharArr[funcDefVal.size + 1]; */
+  /* for(int i = 0; i < funcDefVal.size; i++) { */
+  /*	funcDefCharArr[i] = funcDefVal.val[i]; */
+  /* } */
+  /* parse_chunk(&st, &NEW_STRING(funcDefCharArr)); */
+
+  /* funcDefVal = peek_until_value(&st, ':'); */
+  /* for(int i = 0; i < funcDefVal.size; i++) { */
+  /*	funcDefCharArr[i] = funcDefVal.val[i]; */
+  /* } */
+  /* parse_chunk(&st, &NEW_STRING(funcDefCharArr)); */
+  /* dumpProgram(); */
+  /* executeProgram(); */
+  prog(&st);
+
 }
