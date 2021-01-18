@@ -1,4 +1,4 @@
-#include "test_suite.c"
+#include "virtual.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
